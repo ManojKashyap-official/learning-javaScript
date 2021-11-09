@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning JavaScript</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/custom.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+</head> 
+
+<style>
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #585a5c;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     
+    }
+    
+   
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    </style>
+<body>
+
+ <div class="container" id="quote-container">
+     <div class="card" id="quote-card">
+         <i class="fas fa-quote-left fa-2x"></i>
+         <span class="quotes">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis mollitia voluptatibus accusamus eveniet consectetur minima!</span>
+        
+     </div>
+     <div class="wirter">
+        <span class="auther">buddha</span>
+     </div>
+     <div class="btn-container">
+         <button class="twitter">twitter</button>
+         <button class="loadnew" id="getQuote">New Quote</button>
+     </div>
+ </div>
+    
+
+ <div class="loader"></div>
+
+
+    <script src="/main.js"></script>
+</body>
+</html>
