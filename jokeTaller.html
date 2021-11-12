@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joke Taller</title>
+  </head>
+  <style>
+    .main-container {
+      background-color: #45badd;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url("./imgs/robot.gif");
+      background-repeat: no-repeat;
+      background-position: left;
+    }
+    .tell {
+      background-color: deeppink;
+      color: #fff;
+      padding: 8px 20px;
+      border-color: deeppink;
+    }
+    .tell:hover {
+      background: #f580bf;
+      color: #fff;
+    }
+    .tell:active {
+      transform: scale(0.98);
+    }
+    #audio{
+        display: none;
+    }
+  </style>
+  <body>
+    <div class="main-container">
+      <button class="tell" id="tell">Tell Me A Joke</button>
+      <audio id="audio" controls autoplay></audio>
+    </div>
+  </body>
+
+  <script>
+
+let joke = '';
+async function getJoke(){
+    let url = "https://api.chucknorris.io/jokes/random";
+    try{
+    const response =await fetch(url);
+    console.log(response);
+    const data =await response.json();
+    joke = data.value;
+    console.log(joke)
+    test();
+
+    
+
+    } catch(error){
+
+    }
+   
+      
+
+}
+
+getJoke();
+
+const button = document.getElementById('tell');
+const audioElement =  document.getElementById('audio');
+
+
+button.addEventListener('click',getJoke);
+
+    "use strict";
+    var VoiceRSS = {
+      speech: function (e) {
+        this._validate(e), this._request(e);
+      },
+      _validate: function (e) {
+        if (!e) throw "The settings are undefined";
+        if (!e.key) throw "The API key is undefined";
+        if (!e.src) throw "The text is undefined";
+        if (!e.hl) throw "The language is undefined";
+        if (e.c && "auto" != e.c.toLowerCase()) {
+          var a = !1;
+          switch (e.c.toLowerCase()) {
+            case "mp3":
+              a = new Audio().canPlayType("audio/mpeg").replace("no", "");
+              break;
+            case "wav":
+              a = new Audio().canPlayType("audio/wav").replace("no", "");
+              break;
+            case "aac":
+              a = new Audio().canPlayType("audio/aac").replace("no", "");
+              break;
+            case "ogg":
+              a = new Audio().canPlayType("audio/ogg").replace("no", "");
+              break;
+            case "caf":
+              a = new Audio().canPlayType("audio/x-caf").replace("no", "");
+          }
+          if (!a) throw "The browser does not support the audio codec " + e.c;
+        }
+      },
+      _request: function (e) {
+        var a = this._buildRequest(e),
+          t = this._getXHR();
+        (t.onreadystatechange = function () {
+          if (4 == t.readyState && 200 == t.status) {
+            if (0 == t.responseText.indexOf("ERROR")) throw t.responseText;
+            // new Audio(t.responseText).play();
+        audioElement.src = t.responseText;
+        audioElement.play();
+          }
+        }),
+          t.open("POST", "https://api.voicerss.org/", !0),
+          t.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded; charset=UTF-8"
+          ),
+          t.send(a);
+      },
+      _buildRequest: function (e) {
+        var a = e.c && "auto" != e.c.toLowerCase() ? e.c : this._detectCodec();
+        return (
+          "key=" +
+          (e.key || "") +
+          "&src=" +
+          (e.src || "") +
+          "&hl=" +
+          (e.hl || "") +
+          "&v=" +
+          (e.v || "") +
+          "&r=" +
+          (e.r || "") +
+          "&c=" +
+          (a || "") +
+          "&f=" +
+          (e.f || "") +
+          "&ssml=" +
+          (e.ssml || "") +
+          "&b64=true"
+        );
+      },
+      _detectCodec: function () {
+        var e = new Audio();
+        return e.canPlayType("audio/mpeg").replace("no", "")
+          ? "mp3"
+          : e.canPlayType("audio/wav").replace("no", "")
+          ? "wav"
+          : e.canPlayType("audio/aac").replace("no", "")
+          ? "aac"
+          : e.canPlayType("audio/ogg").replace("no", "")
+          ? "ogg"
+          : e.canPlayType("audio/x-caf").replace("no", "")
+          ? "caf"
+          : "";
+      },
+      _getXHR: function () {
+        try {
+          return new XMLHttpRequest();
+        } catch (e) {}
+        try {
+          return new ActiveXObject("Msxml3.XMLHTTP");
+        } catch (e) {}
+        try {
+          return new ActiveXObject("Msxml2.XMLHTTP.6.0");
+        } catch (e) {}
+        try {
+          return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+        } catch (e) {}
+        try {
+          return new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {}
+        try {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e) {}
+        throw "The browser does not support HTTP request";
+      },
+    };
+
+    function test(){
+        VoiceRSS.speech({
+            key: '23590989dbe0456eacb35ff43c3f94fe',
+            src: joke,
+            hl: 'en-us',
+            v: 'Linda',
+            r: 0, 
+            c: 'mp3',
+            f: '44khz_16bit_stereo',
+            ssml: false
+        });
+
+
+      }
+// test();
+
+
+
+
+
+    // let joke = [];
+
+    // function speak() {
+    //   fetch(
+    //     "https://voicerss-text-to-speech.p.rapidapi.com/?key=23590989dbe0456eacb35ff43c3f94fe",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "content-type": "application/x-www-form-urlencoded",
+    //         "x-rapidapi-host": "voicerss-text-to-speech.p.rapidapi.com",
+    //         "x-rapidapi-key":
+    //           "e433f3a93cmshcea557348286f53p1c53ebjsn74291e9fb91a",
+    //       },
+    //       body: {
+    //         src: "Hello,  manoj",
+    //         hl: "en-us",
+    //         r: "0",
+    //         c: "mp3",
+    //         f: "8khz_8bit_mono",
+    //       },
+    //     }
+    //   )
+    //     .then((response) => {
+    //       let data = response;
+    //       joke = data;
+    //       console.log(joke);
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // }
+
+    // speak();
+  </script>
+</html>

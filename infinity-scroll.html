@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>infinity Scroll</title>
+</head>
+<style>
+    #loader{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #img-container{
+        margin: 10px 30%;
+    }
+    #img-container img{
+        margin-top: 10px;
+        width: 100%;
+    }
+</style>
+<body>
+    <h1>Infinity Scroll Using Splash Photos</h1> 
+
+
+    <div id="loader">
+        <img src="./imgs/Spinner-1s-200px.svg" alt="" hidden>
+    </div>
+
+
+    <div class="img-container" id="img-container">
+        <img src="" alt="">
+    </div>
+    
+</body>
+<script>
+
+    const imgContainer =  document.getElementById('img-container');
+    const loader = document.getElementById('loader');
+    let photoArray = [];
+
+    const count = 10;
+    const apiKey = '2FbZPIBKUHiQBOz4lAo4yYMAhaq8Qgcml7C-LkmfU70';
+    const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+
+
+    function imgLoaded(){
+        console.log('img Loaded');
+    }
+
+    async function getPhotos(){
+        try{
+           
+            const response = await fetch(apiUrl);
+            photoArray = await response.json();
+            // console.log(photoArray[0].urls.full);
+            displayPhotos();
+        }
+        catch(error){
+
+        }
+    }
+
+    getPhotos();
+
+
+  
+
+    function displayPhotos(){
+        photoArray.forEach((photos) => {
+            // console.log(photos);
+            let item =  document.createElement('a');
+            // item.setAttribute('href', photos.links.html);
+            // item.setAttribute('target', '_blank');
+            setAttributes(item,{
+                        href:photos.links.html,
+                        target:'_blank'
+            });
+
+            
+
+            const img = document.createElement('img');
+            // img.setAttribute('src', photos.urls.regular);  
+            // img.setAttribute('alt', photos.description);  
+            // img.setAttribute('title', photos.description); 
+            setAttributes(img , {
+                src:photos.urls.regular,
+                alt:photos.description,
+                title:photos.description,
+            })
+
+            img.addEventListener('img' , imgLoaded());
+
+            item.appendChild(img);
+            imgContainer.appendChild(item);
+        });
+    }
+
+
+    function setAttributes(element, attributes){
+        for (const key in attributes){
+            element.setAttribute(key , attributes[key]);
+        }
+    }
+
+
+
+    // scroll event
+
+    window.addEventListener('scroll', () =>{
+        // console.log('scrolling');
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight ){
+           getPhotos();
+            // console.log('load more');
+        }
+    })
+    </script>
+</html>
