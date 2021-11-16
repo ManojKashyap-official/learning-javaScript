@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Count Down</title>
+
+</head>
+<style>
+    body{
+        margin: 0px;
+    }
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        
+    }
+    .card{
+        background-color: rgba(225, 225, 225, 0.85);
+        height: 300px;
+        width: 600px;
+        border-radius: 8px;
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        height: 180px;
+        justify-content: space-evenly;
+    }
+    #submit , #resetButton, #complete-button{
+        background-color: green;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        border: none;
+    }
+    .input-container h1{
+        text-align: center;
+    }
+    input#title {
+    padding: 6px;
+    }
+    
+    input#date-picker {
+    padding: 6px;
+    }
+    ul{
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+    }
+    span{
+        font-size: 4rem;
+    }
+    .countdown button , #complete-button{
+        width: 95%;
+        margin: 15px;
+    }
+</style>
+<body>
+
+    <div class="container">
+        <div class="card">
+
+                <div class="input-container" id="input-container" >
+                    <h1>Create a Custom Count Down</h1>
+                    <form class="form" id="countdownFrom">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" placeholder="name your countdown">
+                        <label for="date-picker">Select a Date</label>
+                        <input type="date" id="date-picker">
+                        <button type="submit" id="submit">  Submit</button>
+                    </form>
+                </div>
+
+
+                <div class="countdown" id="countdown" hidden>
+                    <h1 class="countdownTitle" id="countdownTitle">count down Title here</h1>
+
+                    <ul>
+                        <li><span>3</span>Days</li>
+                        <li><span>41</span>Hours</li>
+                        <li><span>75</span>Minutes</li>
+                        <li><span>63</span>Seconds</li>
+                    </ul>
+                    <button type="submit" id="resetButton">Reset</button>
+                </div>
+
+                    <div class="complete" id="complete" hidden>
+                        <h1 class="complete-title">Complete Countdown</h1>
+                        <h1 class="complete-info" id="complete-info">countdown finish 01/01/10</h1>
+                        <button type="submit" id="complete-button">Add New Countdown</button>
+                        
+                    </div>
+
+        </div>
+    </div>
+    
+</body>
+
+<script>
+   const inputContainer = document.getElementById('input-container');
+   const countDown = document.getElementById('countdown');
+
+   const countdownForm  =  document.getElementById('countdownFrom');
+   const dateEl = document.getElementById('date-picker');
+   const Title = document.getElementById('countdownTitle');
+   const li = document.querySelectorAll('span');
+
+
+   
+
+
+    let countDownTitle = '';
+    let countDownDate = '';
+    let countdownValue = '';
+
+    const second = 1000;
+    const minute = second * 60 ;
+    const hour = minute * 60 ;
+    const day = hour * 24 ;
+
+
+const date =  new Date().toISOString().split('T')[0];
+
+
+dateEl.setAttribute('min', date); 
+
+
+function updateDom(){
+    const now = new Date('11-17-2021').getTime();
+    
+    const distance = countdownValue  - now ;
+    console.log(now);
+
+    const days = Math.floor(distance / (1000 * 60 * 60 *24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 *24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60 )) / (1000 * 60 ));
+    const seconds = Math.floor((distance % (1000 * 60 )) / 1000);
+
+    console.log(days, hours, minutes, seconds);
+
+    Title.textContent =`${countDownTitle}`;
+    li[0].textContent = `${days}`;
+    li[1].textContent = `${hours}`;
+    li[2].textContent = `${minutes}`;
+    li[3].textContent = `${seconds}`;
+
+
+
+
+
+
+
+    inputContainer.hidden = true;
+    countDown.hidden =  false;
+
+    
+    
+   
+
+
+}
+
+function updateCountDown(e){
+    e.preventDefault();
+    countDownTitle = e.srcElement[0].value;
+    countDownDate = e.srcElement[1].value;
+    // console.log(countDownTitle, countDownDate);
+    countdownValue = new Date(countDownDate).getTime();
+    // console.log(countdownValue);
+    updateDom();
+   
+}
+
+countdownForm.addEventListener('submit', updateCountDown);
+ 
+</script>
+</html>
