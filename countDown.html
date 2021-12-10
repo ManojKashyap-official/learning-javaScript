@@ -132,17 +132,21 @@ dateEl.setAttribute('min', date);
 
 
 function updateDom(){
-    const now = new Date('11-17-2021').getTime();
+    const now = new Date().getTime();
+
+
+
+    
     
     const distance = countdownValue  - now ;
-    console.log(now);
+    console.log(distance);
 
     const days = Math.floor(distance / (1000 * 60 * 60 *24));
     const hours = Math.floor((distance % (1000 * 60 * 60 *24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60 )) / (1000 * 60 ));
     const seconds = Math.floor((distance % (1000 * 60 )) / 1000);
 
-    console.log(days, hours, minutes, seconds);
+    // console.log(days, hours, minutes, seconds);
 
     Title.textContent =`${countDownTitle}`;
     li[0].textContent = `${days}`;
@@ -171,8 +175,8 @@ function updateCountDown(e){
     countDownTitle = e.srcElement[0].value;
     countDownDate = e.srcElement[1].value;
     // console.log(countDownTitle, countDownDate);
-    countdownValue = new Date(countDownDate).getTime();
-    // console.log(countdownValue);
+    countdownValue = new Date('11-17-2021').getTime();
+    console.log(countdownValue);
     updateDom();
    
 }

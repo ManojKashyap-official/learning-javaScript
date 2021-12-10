@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <title>password see test</title>
+    <link rel="shortcut icon" href=" http://www.google.com/s2/favicons?domain=https://www.isro.gov.in/" type="image/x-icon">
+</head>
+<style>
+  body{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+  img{
+    width: 50vw;
+    margin: 10px auto;
+  }
+  p{
+    cursor: pointer;
+  }
+ 
+  .hidden{
+    display: none;
+    background-color: green;
+    color: #fff;
+    padding: 0px 20px;
+    position: fixed;
+    right: 50px;
+    bottom: 20px;
+    border-radius: 10px;
+    
+    z-index: 9;
+  }
+  
+</style>
+<body>
+    <!-- <label for="password">Password</label>
+    <input type="password" name="password" id="password" value="ppppppppppppp">
+    <button type="button" id="seePass">see</button> -->
+    <div id="container">
+
+    </div>
+
+    <div id="message"   class="hidden">
+      <h1 class="added">Added</h1>
+    </div>
+</body>
+<script>
+  
+  //   function checkPass(){
+    //       if (pass.type === "password") {
+      //   pass.type = "text";
+      // } else {
+        //   pass.type = "password";
+        // }
+        //   }
+        
+        // btn.addEventListener('click', checkPass);
+        
+        const pass = document.getElementById('password');
+        const btn = document.getElementById('seePass');
+        let msg = document.getElementById('message');
+      
+       
+         
+
+const fav ={};
+    const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10`;
+    const maindiv = document.getElementById('container');
+
+
+function updateDom(){
+  results.forEach((data) =>{
+    const card = document.createElement('div');
+    card.classList.add('card'); 
+  
+
+    const link = document.createElement('a');
+    link.href = data.hdurl;
+   
+
+    const imageContainer = document.createElement('img');
+    imageContainer.src = data.url;
+
+    const fav = document.createElement('p');
+    fav.textContent = 'Add To Favorite';
+    fav.setAttribute  ('onclick',`saveFav('${data.url}')`);
+    
+ 
+  card.appendChild(fav);
+  link.appendChild(imageContainer);
+  card.append(link);
+  maindiv.appendChild(card);
+  
+ 
+
+
+
+  })
+}
+
+
+    let results =[];
+    async function getNasaData(){
+      try{
+        const response =await fetch(apiUrl);
+        results = await response.json();
+        // console.log(results[0].title);
+        updateDom();
+
+      }catch(error){
+        //catch error here
+      }
+    }
+
+    getNasaData();
+
+
+    function saveFav(itemUrl){
+      // console.log(itemUrl);
+      results.forEach((data) =>{
+        if(data.url.includes(itemUrl)) {
+          fav[itemUrl]= data;
+          msg.style.display="block"
+          msg.style.transition="all 0.5s"
+          setTimeout(function(){
+            msg.style.display="none"
+          },2000);
+
+         
+          
+         
+
+        }
+      })
+    }
+
+
+ </script>
+</html>

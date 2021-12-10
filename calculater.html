@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        height: 100vh;
+         display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container{
+        width: 25%;
+        background-color: #ddd;
+        padding: 0;
+        position: relative;
+       
+    }
+    h1{
+        margin: 0px;
+    }
+    .output{
+        background-color: #000;
+        color: #fff;
+        text-align: end;
+        padding: 10px 5px;
+    }
+    .oprater-div{
+        display: flex;
+        justify-content: space-between;
+        width: min-content;
+    }
+    .oprater-div button{
+        padding: 5px 29px;
+        margin: 5px;
+    }
+    .button-div{
+       display: flex;
+       flex-wrap: wrap;
+    }
+    .button-div button{
+        padding: 5px 29px;
+        margin: 5px;
+    }
+    .equal-div{
+        float: right;
+    }
+</style>
+<body>
+    <!-- <form >
+        
+     
+
+        <input type="radio" id="html" name="fav_language" value="HTML">
+        <label for="html">HTML</label><br>
+        <input type="radio" id="css" name="fav_language" value="CSS">
+        <label for="css">CSS</label><br>
+        <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+        <label for="javascript">JavaScript</label>
+
+
+        <button type="submit">Submit</button>
+    </form> -->
+
+    <div class="container">
+        <div class="output">
+            <h1>0</h1>
+        </div>
+        <div class="button-container">
+            <div class="oprater-div">
+                <button type="text" class="operater" value="+">+</button>
+                <button type="text" class="operater" value="-">-</button>
+                <button type="text" class="operater" value="*">*</button>
+                <button type="text" class="operater" value="/">/</button>
+            </div>
+            <div class="button-div">
+                <button type="text" value="1">1</button>
+                <button type="text" value="2">2</button>
+                <button type="text" value="3">3</button>
+                <button type="text" value="4">4</button>
+                <button type="text" value="5">5</button>
+                <button type="text" value="6">6</button>
+                <button type="text" value="7">7</button>
+                <button type="text" value="8">8</button>
+                <button type="text" value="9">9</button>
+                <button type="text" value="0">0</button>
+                <button type="text" class="decimal" value=".">.</button>
+                <button type="text" class="clear" id="clear">C</button>
+                
+                <div class="equal-div">
+                    <button type="text" class="equal-operater operater" value="=">=</button>
+                </div>  
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script>
+    // const myForm = document.querySelector('form');
+    // console.log(myForm)
+    // const radioBtn = document.querySelectorAll('[type="radio"]');
+    // console.log(radioBtn);
+   
+    // myForm.addEventListener('submit', (e) => {
+    //     e.preventDefault();
+
+     
+    // });
+
+
+    let firstValue = 0;
+    let operaterValue = '';
+    let awaitingFor = false;
+
+
+    const allBtns = document.querySelectorAll('button');
+    const output = document.querySelector('h1');
+    const clear = document.getElementById('clear')
+
+
+
+    function addDecimal(){
+        if(awaitingFor) return;
+        if (!output.textContent.includes('.')){
+            output.textContent = `${output.textContent}.`
+        }
+
+    }
+
+    function clearAll(){
+        firstValue = 0;
+        operaterValue = '';
+        awaitingFor = false;
+        output.textContent='0';
+
+    }
+    
+
+    function sendNumberValue(number){
+
+        if(awaitingFor){
+            output.textContent = number;
+            awaitingFor = false;
+        }else{
+
+            const display = output.textContent;
+            output.textContent = display ==='0' ? number : display+number;
+        }
+    }
+
+
+    const calculate = {
+        '/':(firstValue,currentValue) => firstValue / currentValue,
+        '*':(firstValue,currentValue) => firstValue * currentValue,
+        '+':(firstValue,currentValue) => firstValue + currentValue,
+        '-':(firstValue,currentValue) => firstValue - currentValue,
+        '=':(firstValue,currentValue) => currentValue
+    }
+
+    function useOperater(operater){
+
+        
+        const currentValue = Number(output.textContent);
+
+        if(operaterValue && awaitingFor){
+            operaterValue = operater;
+            return;
+            
+        }
+        
+         if(!firstValue){
+          
+            firstValue = currentValue;
+        }else{
+            console.log(firstValue,operaterValue, currentValue);
+            const calculation = calculate[operaterValue](firstValue,currentValue);
+            console.log(calculation);
+            firstValue= calculation;
+            output.textContent = calculation;
+        }
+        awaitingFor = true;
+        operaterValue = operater;
+     
+    }
+
+    allBtns.forEach((inputBtn)  =>{
+        if(inputBtn.classList.length === 0){
+            inputBtn.addEventListener('click',() => sendNumberValue(inputBtn.value));
+        }
+        else if(inputBtn.classList.contains('operater')){
+            inputBtn.addEventListener('click', () => useOperater(inputBtn.value))
+        }
+        else if(inputBtn.classList.contains('decimal')){
+            inputBtn.addEventListener('click', () => addDecimal())
+        }
+    });
+
+    clear.addEventListener('click', () => clearAll());
+    
+</script>
+</html>
