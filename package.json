@@ -1,0 +1,20 @@
+{
+  "name": "leraning-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManojKashyap-official/learning-javaScript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManojKashyap-official/learning-javaScript/issues"
+  },
+  "homepage": "https://github.com/ManojKashyap-official/learning-javaScript#readme"
+}

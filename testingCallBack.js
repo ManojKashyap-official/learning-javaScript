@@ -1,0 +1,16 @@
+function calculateSquare(number, callback){
+    setTimeout(function(){
+        if(typeof number !== 'number'){
+            callback(new Error('Argument of type number is expected '));
+            return;
+        }
+        const result = number * number;
+        callback(null, result);
+        console.log(result)
+
+    },0)
+}
+
+
+
+module.exports = calculateSquare;
